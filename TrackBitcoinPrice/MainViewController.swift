@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import SVProgressHUD
 
 class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -20,11 +23,10 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     let priceLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Light", size: 54)
+        label.font = UIFont(name: "HelveticaNeue-Light", size: 42)
         label.textColor = UIColor(red: 241, green: 167, blue: 52)
         label.text = "Price"
         label.textAlignment = .center
-        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -86,9 +88,34 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print("\(REQUEST_URL)\(CURRENCY_ARRAY[row])")
+//        print("\(REQUEST_URL)\(CURRENCY_ARRAY[row])")
+        SVProgressHUD.show()
+        getBitcoinPrice(url: "\(REQUEST_URL)\(CURRENCY_ARRAY[row])")
     }
 
+    func getBitcoinPrice(url : String) {
+        Alamofire.request(url).responseJSON(completionHandler: { (response) in
+            if response.result.isSuccess {
+//                print("Success! Got the price data")
+                SVProgressHUD.dismiss()
+                self.updatePriceData(data: JSON(response.result.value))
+            } else {
+                print("Error: \(response.result.error)")
+                self.priceLabel.text = "Connection Issues"
+                SVProgressHUD.dismiss()
+            }
+        })
+    }
+    
+    func updatePriceData(data : JSON) {
+//        print(data)
+
+        if let price = data["averages"]["day"].double {
+            priceLabel.text = "\(CURRENCY_SYMBOL[currencyPicker.selectedRow(inComponent: 0)])\(price)"
+        } else {
+            priceLabel.text = "Price unavailable"
+        }
+    }
 
 }
 

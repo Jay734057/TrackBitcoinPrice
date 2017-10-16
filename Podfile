@@ -9,5 +9,6 @@ target 'TrackBitcoinPrice' do
 
     pod "Alamofire"
     pod "SwiftyJSON"
+    pod "SVProgressHUD"
 
 end

@@ -10,6 +10,7 @@ import UIKit
 
 let REQUEST_URL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC"
 let CURRENCY_ARRAY = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
+let CURRENCY_SYMBOL = ["$", "R$", "$", "¥", "€", "£", "$", "Rp", "₪", "₹", "¥", "$", "kr", "$", "zł", "lei", "₽", "kr", "$", "$", "R"]
 
 extension UIColor {
     convenience init(red: CGFloat, green: CGFloat, blue: CGFloat) {
