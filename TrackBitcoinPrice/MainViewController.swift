@@ -98,7 +98,7 @@ class MainViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
             if response.result.isSuccess {
 //                print("Success! Got the price data")
                 SVProgressHUD.dismiss()
-                self.updatePriceData(data: JSON(response.result.value))
+                self.updatePriceData(data: JSON(response.result.value!))
             } else {
                 print("Error: \(response.result.error)")
                 self.priceLabel.text = "Connection Issues"
